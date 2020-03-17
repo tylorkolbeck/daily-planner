@@ -1,23 +1,20 @@
-
-
-let currentHour = 12 // FOR TESTING
-// let currentHour = moment().hour()
+let currentHour
 
 init()
 
 function init() {
+    currentHour = moment().hour()
     updateBlockColors(currentHour)
     startTimeCheckInterval()
 }
 
-// setInterval(() => currentHour++, 1000) // For testing running through time
-
 /**
  * check the time every minute to
- * determine if the time blocks need to be updated
+ * determine if the time blocks needs to be updated
  */
 function startTimeCheckInterval() {
     setInterval(() => {
+        currentHour = moment().hour()
         updateBlockColors(currentHour)
     }, 1000)
 }
