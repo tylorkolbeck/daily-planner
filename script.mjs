@@ -1,7 +1,7 @@
+import { updateLocalStorage } from './localStorageLogic.mjs'
 
 // Globals
 let currentHour, currentDate
-
 
 // Start the app
 init()
@@ -62,6 +62,9 @@ function updateUI(currentDate, currentHour) {
         if (hourId < currentHour) $(el).addClass('past')
     })
 }
+
+
+
 
 
 
