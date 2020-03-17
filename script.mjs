@@ -1,0 +1,1 @@
+let currentHour = moment().hour()
