@@ -1,7 +1,13 @@
+
+/**
+ * 
+ * @param {string} currentDate 
+ * @param {string} timeBlockId 
+ * @param {string} inputValue 
+ * @return {null}
+ * updates local storage with the passed in value 
+ */
 export function updateLocalStorage(currentDate, timeBlockId, inputValue) {
-    // get old stored data to merge with the new
-    // console.log('>>>', currentDate)
-    
     let storedData = getLocalStorageData()
 
     if (storedData) {
@@ -23,12 +29,19 @@ export function updateLocalStorage(currentDate, timeBlockId, inputValue) {
     localStorage.setItem('tk-calander', JSON.stringify(storedData))
 }
 
+/**
+ * Gets the data stored in local storage
+ * @return {string|false}
+ */
 export function getLocalStorageData() {
     let storedData = localStorage.getItem('tk-calander')
 
     if (storedData) {
         storedData = JSON.parse(storedData)
+        return storedData
+
+    } else {
+        return false
     }
 
-    return storedData
 }

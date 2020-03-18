@@ -94,7 +94,6 @@ function udpateBlockColors(currentHour) {
 function updateHourBlocksWithData(currentDate) {
     // clear all the blocks first
     $('.time-block').each(function(i, el) {
-        console.log('>>>', $(el))
         $(el).find('textarea').val('')
     })
 
