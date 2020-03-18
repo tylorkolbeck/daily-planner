@@ -2,7 +2,7 @@ import { updateLocalStorage, getLocalStorageData } from './localStorageLogic.mjs
 
 // Globals
 let currentHour
-let currentDate = null
+let currentDate = moment().format("MMM Do YYYY")
 let currentDayOffset = 0
 
 // Start the app
@@ -14,26 +14,33 @@ init()
  * time block UI styles and then start an interval
  * to check the time every minute
  */
-function init(currentDate) {
+function init() {
     updateCurrentHour()
 
-    if (!currentDate) {
-        setDateToToday()
-    }
+    // if (!currentDate) {
+    //     setDateToToday()
+    // }
 
     udpateBlockColors(currentHour)
+
     startTimeCheckInterval()
+
     updateHourBlocksWithData(currentDate)
+
+    updateDateUI()
+
     setUpDaySelectionHandlers()
     $('textarea').on('keyup', handleFieldInput)
+
 }
 
 
 function handleFieldInput(event) {
     let inputValue = event.target.value
     let timeBlockId = event.target.parentNode.id
-    let dayToUse = $('#currentDay').text() 
-    updateLocalStorage(dayToUse, timeBlockId, inputValue)
+    // let dayToUse = $('#currentDay').text() 
+    updateLocalStorage(currentDate, timeBlockId, inputValue)
+    updateHourBlocksWithData(currentDate)
 }
 
 
@@ -45,10 +52,6 @@ function updateCurrentHour(currentDate) {
     currentHour = parseInt(moment().hour())
 }
 
-function setDateToToday() {
-    currentDate = moment().format("MMM Do YYYY")
-    updateDateUI()
-}
 
 function updateDateUI() {
     $('#currentDay').text(currentDate)
@@ -61,10 +64,7 @@ function updateDateUI() {
  */
 function startTimeCheckInterval() {
     setInterval(() => {
-        // updateCurrentHour()
-        // updateCurrentDate(currentDate)
         udpateBlockColors(currentHour)
-        // updateBlockColors(currentHour)
     }, 60000)
 }
 
@@ -93,14 +93,17 @@ function udpateBlockColors(currentHour) {
  * it is
  */
 function updateHourBlocksWithData(currentDate) {
+    console.log('CURRENT DATE 1', currentDate)
     let todaysData = getLocalStorageData()
-    
+    console.log('TODAYS DATA', todaysData[currentDate])
     if (todaysData) {
         let dataObj = todaysData[currentDate]
 
         for (let block in dataObj) {
             $(`#${block}`).find('textarea').val(dataObj[block])
         }
+    } else {
+        // CLEAR ALL THE INPUT FIELDS BECAUSE NO DATA EXISTS FOR THIS DAY
     }
 }
 
@@ -128,6 +131,7 @@ function updateDateOffset(event) {
     }
 
     currentDate = moment().subtract(currentDayOffset, 'days').format('MMM Do YYYY')
+    updateHourBlocksWithData(currentDate)
     updateDateUI()
 }
 
