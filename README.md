@@ -6,6 +6,8 @@ for certain hours for the day.
 As the day progresses the time blocks change color to indicate that 
 a time block is in the past, present, or future.
 
+## Demo 
+[Demo](https://tylorkolbeck.github.io/daily-planner/)
 
 ![GitHub Logo](/assets/scheduler-demo.png)
 
