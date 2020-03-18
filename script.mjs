@@ -69,6 +69,12 @@ function udpateBlockColors(currentHour) {
     })
 }
 
+
+/**
+ * @param {string} currentDate 
+ * sets the string data of each time block depending on what day
+ * it is
+ */
 function updateHourBlocksWithData(currentDate) {
     let todaysData = getLocalStorageData()
     
