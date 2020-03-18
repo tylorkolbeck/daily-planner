@@ -1,7 +1,6 @@
 
 ## Description
-This project uses localstorage to store user input events 
-for certain hours for the day.  
+As the user types the input is automatically saved to local storage.
 
 As the day progresses the time blocks change color to indicate that 
 a time block is in the past, present, or future.
