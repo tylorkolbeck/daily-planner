@@ -8,7 +8,7 @@ a time block is in the past, present, or future.
 ## Demo 
 [Demo](https://tylorkolbeck.github.io/daily-planner/)
 
-![GitHub Logo](/assets/scheduler-demo.png)
+![GitHub Logo](/assets/scheduler-image.png)
 
 ## User Story
 
