@@ -1,7 +1,9 @@
 import { updateLocalStorage, getLocalStorageData } from './localStorageLogic.mjs'
 
 // Globals
-let currentHour, currentDate
+let currentHour
+let currentDate = null
+let currentDayOffset = 0
 
 // Start the app
 init()
@@ -12,11 +14,17 @@ init()
  * time block UI styles and then start an interval
  * to check the time every minute
  */
-function init() {
-    updateCurrentTimes()
+function init(currentDate) {
+    updateCurrentHour()
+
+    if (!currentDate) {
+        setDateToToday()
+    }
+
     udpateBlockColors(currentHour)
     startTimeCheckInterval()
     updateHourBlocksWithData(currentDate)
+    setUpDaySelectionHandlers()
     $('textarea').on('keyup', handleFieldInput)
 }
 
@@ -24,7 +32,8 @@ function init() {
 function handleFieldInput(event) {
     let inputValue = event.target.value
     let timeBlockId = event.target.parentNode.id
-    updateLocalStorage(currentDate, timeBlockId, inputValue)
+    let dayToUse = $('#currentDay').text() 
+    updateLocalStorage(dayToUse, timeBlockId, inputValue)
 }
 
 
@@ -32,9 +41,16 @@ function handleFieldInput(event) {
  * update the global currentHour and currentDate 
  * variables
  */
-function updateCurrentTimes() {
+function updateCurrentHour(currentDate) {
     currentHour = parseInt(moment().hour())
+}
+
+function setDateToToday() {
     currentDate = moment().format("MMM Do YYYY")
+    updateDateUI()
+}
+
+function updateDateUI() {
     $('#currentDay').text(currentDate)
 }
 
@@ -45,7 +61,8 @@ function updateCurrentTimes() {
  */
 function startTimeCheckInterval() {
     setInterval(() => {
-        updateCurrentTimes()
+        // updateCurrentHour()
+        // updateCurrentDate(currentDate)
         udpateBlockColors(currentHour)
         // updateBlockColors(currentHour)
     }, 60000)
@@ -85,6 +102,33 @@ function updateHourBlocksWithData(currentDate) {
             $(`#${block}`).find('textarea').val(dataObj[block])
         }
     }
+}
+
+
+/**
+ * addevent listeners to the day selection buttons
+ */
+function setUpDaySelectionHandlers() {
+    $('#minus-day-btn').on('click', updateDateOffset)
+    $('#plus-day-btn').on('click', updateDateOffset)
+}
+
+
+/**
+ * 
+ * @param event
+ * update the global page offset as well as 
+ * the global date 
+ */
+function updateDateOffset(event) {
+    if (event.target.id === 'minus-day-btn') {
+        currentDayOffset++
+    } else {
+        currentDayOffset--
+    }
+
+    currentDate = moment().subtract(currentDayOffset, 'days').format('MMM Do YYYY')
+    updateDateUI()
 }
 
 

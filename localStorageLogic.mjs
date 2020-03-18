@@ -1,5 +1,7 @@
 export function updateLocalStorage(currentDate, timeBlockId, inputValue) {
     // get old stored data to merge with the new
+    // console.log('>>>', currentDate)
+    
     let storedData = getLocalStorageData()
 
     if (storedData) {
