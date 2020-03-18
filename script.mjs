@@ -93,18 +93,20 @@ function udpateBlockColors(currentHour) {
  * it is
  */
 function updateHourBlocksWithData(currentDate) {
-    console.log('CURRENT DATE 1', currentDate)
+    // clear all the blocks first
+    $('.time-block').each(function(i, el) {
+        console.log('>>>', $(el))
+        $(el).find('textarea').val('')
+    })
+
     let todaysData = getLocalStorageData()
-    console.log('TODAYS DATA', todaysData[currentDate])
     if (todaysData) {
         let dataObj = todaysData[currentDate]
 
         for (let block in dataObj) {
             $(`#${block}`).find('textarea').val(dataObj[block])
         }
-    } else {
-        // CLEAR ALL THE INPUT FIELDS BECAUSE NO DATA EXISTS FOR THIS DAY
-    }
+    } 
 }
 
 
