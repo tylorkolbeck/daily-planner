@@ -7,6 +7,7 @@ As the day progresses the time blocks change color to indicate that
 a time block is in the past, present, or future.
 
 
+![GitHub Logo](/assets/scheduler-demo.png)
 
 ## User Story
 
