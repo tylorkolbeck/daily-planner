@@ -17,10 +17,6 @@ init()
 function init() {
     updateCurrentHour()
 
-    // if (!currentDate) {
-    //     setDateToToday()
-    // }
-
     udpateBlockColors(currentHour)
 
     startTimeCheckInterval()
@@ -53,6 +49,9 @@ function updateCurrentHour(currentDate) {
 }
 
 
+/**
+ * update the UI with the current date that is being viewed
+ */
 function updateDateUI() {
     $('#currentDay').text(currentDate)
 }
