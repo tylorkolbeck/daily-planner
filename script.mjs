@@ -1,4 +1,4 @@
-import { updateLocalStorage } from './localStorageLogic.mjs'
+import { updateLocalStorage, getLocalStorageData } from './localStorageLogic.mjs'
 
 // Globals
 let currentHour, currentDate
@@ -14,8 +14,17 @@ init()
  */
 function init() {
     updateCurrentTimes()
-    updateUI(currentDate, currentHour)
+    udpateBlockColors(currentHour)
     startTimeCheckInterval()
+    updateHourBlocksWithData(currentDate)
+    $('textarea').on('keyup', handleFieldInput)
+}
+
+
+function handleFieldInput(event) {
+    let inputValue = event.target.value
+    let timeBlockId = event.target.parentNode.id
+    updateLocalStorage(currentDate, timeBlockId, inputValue)
 }
 
 
@@ -26,6 +35,7 @@ function init() {
 function updateCurrentTimes() {
     currentHour = parseInt(moment().hour())
     currentDate = moment().format("MMM Do YYYY")
+    $('#currentDay').text(currentDate)
 }
 
 
@@ -36,7 +46,7 @@ function updateCurrentTimes() {
 function startTimeCheckInterval() {
     setInterval(() => {
         updateCurrentTimes()
-        updateUI(currentDate, currentHour)
+        udpateBlockColors(currentHour)
         // updateBlockColors(currentHour)
     }, 60000)
 }
@@ -48,19 +58,27 @@ function startTimeCheckInterval() {
  * updates the time-block elements depending on whether or not 
  * the time is present, past or future time block
  */
-function updateUI(currentDate, currentHour) {
-    // Paint date to DOM
-    $('#currentDay').text(currentDate)
-
+function udpateBlockColors(currentHour) {
     // Loop through the elements and determine which class needs to be applied
     $('.time-block').each(function(i, el) {
-
         // Remove currently applied classes
         $(el).removeClass('present past')
         let hourId = parseInt($(el).attr('id').split("-")[1])
         if (hourId === currentHour) $(el).addClass('present')
         if (hourId < currentHour) $(el).addClass('past')
     })
+}
+
+function updateHourBlocksWithData(currentDate) {
+    let todaysData = getLocalStorageData()
+    
+    if (todaysData) {
+        let dataObj = todaysData[currentDate]
+
+        for (let block in dataObj) {
+            $(`#${block}`).find('textarea').val(dataObj[block])
+        }
+    }
 }
 
 
