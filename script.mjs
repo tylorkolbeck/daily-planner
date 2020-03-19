@@ -5,7 +5,6 @@ let currentHour
 let currentDate = moment().format("MMM Do YYYY")
 let currentDayOffset = 0
 
-// Start the app
 init()
 
 
@@ -15,45 +14,21 @@ init()
  * to check the time every minute
  */
 function init() {
-    updateCurrentHour()
-
+    currentHour = parseInt(moment().hour())
     udpateBlockColors(currentHour)
-
     startTimeCheckInterval()
-
     updateHourBlocksWithData(currentDate)
-
-    updateDateUI()
-
+    $('#currentDay').text(currentDate)
     setUpDaySelectionHandlers()
     $('textarea').on('keyup', handleFieldInput)
-
 }
 
 
 function handleFieldInput(event) {
     let inputValue = event.target.value
     let timeBlockId = event.target.parentNode.id
-    // let dayToUse = $('#currentDay').text() 
     updateLocalStorage(currentDate, timeBlockId, inputValue)
     updateHourBlocksWithData(currentDate)
-}
-
-
-/**
- * update the global currentHour and currentDate 
- * variables
- */
-function updateCurrentHour(currentDate) {
-    currentHour = parseInt(moment().hour())
-}
-
-
-/**
- * update the UI with the current date that is being viewed
- */
-function updateDateUI() {
-    $('#currentDay').text(currentDate)
 }
 
 
@@ -64,12 +39,11 @@ function updateDateUI() {
 function startTimeCheckInterval() {
     setInterval(() => {
         udpateBlockColors(currentHour)
+        currentHour = parseInt(moment().hour())
     }, 60000)
 }
 
-
 /**
- * @param {string} currentDate - date formatted MMM Do YYYY
  * @param {num} currentHour
  * updates the time-block elements depending on whether or not 
  * the time is present, past or future time block
@@ -84,7 +58,6 @@ function udpateBlockColors(currentHour) {
         if (hourId < currentHour) $(el).addClass('past')
     })
 }
-
 
 /**
  * @param {string} currentDate 
@@ -104,7 +77,7 @@ function updateHourBlocksWithData(currentDate) {
         for (let block in dataObj) {
             $(`#${block}`).find('textarea').val(dataObj[block])
         }
-    } 
+    }
 }
 
 
@@ -132,7 +105,7 @@ function updateDateOffset(event) {
 
     currentDate = moment().subtract(currentDayOffset, 'days').format('MMM Do YYYY')
     updateHourBlocksWithData(currentDate)
-    updateDateUI()
+    $('#currentDay').text(currentDate)
 }
 
 
